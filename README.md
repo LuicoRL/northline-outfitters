@@ -14,11 +14,12 @@ storefront-child/
 
 ## Requirements
 
-* **WordPress:** 6.x
-* **WooCommerce:** 9.x
-* **Parent Theme:** Storefront (installed in `wp-content/themes/storefront`)
-* **PHP:** 8.1+
-
+* **WordPress:** 7.1.5
+* **WooCommerce:** 11.3.1
+* **Parent Theme:** Storefront 4.6.2 (installed in `wp-content/themes/storefront`)
+* **Child Theme:** Storefront Child 1.0.0
+* **PHP / Server / Database:** PHP 8.2.29 / nginx 1.26.1 / MySQL 8.4.0
+  
 ## Local Installation & Setup
 
 1. Ensure the **Storefront** parent theme is installed in `wp-content/themes/storefront` (do not activate the parent theme directly).
