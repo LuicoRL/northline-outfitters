@@ -3,3 +3,24 @@
  Template:     storefront
  Version:      1.0.0
 */
+
+/* Lighthouse contrast: header cart count */
+.site-header-cart .cart-contents .count {
+	color: #ffffff !important;
+	opacity: 1 !important;
+}
+
+/* Lighthouse contrast: product prices (dark text on the light cards) */
+.price,
+.price bdi,
+.price ins,
+.price ins bdi {
+	color: #1f2933 !important;
+}
+
+/* Lighthouse contrast: old (struck-out) prices */
+.price del,
+.price del bdi {
+	color: #4b5563 !important;
+	opacity: 1 !important;
+}

@@ -6,39 +6,34 @@ Custom WordPress child theme built on **Storefront** for **Northline Outfitters*
 
 ```text
 storefront-child/
-├── .gitignore      # Excludes OS metadata and debug logs
-├── functions.php   # Parent/child style enqueuing and scoped store hooks
-├── style.css       # Child theme header and custom CSS overrides
-└── README.md       # Setup, architecture, and workflow documentation
+├── .gitignore      # Excludes OS metadata, debug logs, and local artifacts
+├── functions.php   # Parent style enqueuing and the optional GA4 tag
+├── style.css       # Child theme header and shared contrast fixes
+└── README.md       # Setup, components, and workflow documentation
 ```
 
-## Requirements
+## Setup
 
-* **WordPress:** 7.1.5
-* **WooCommerce:** 11.3.1
-* **Parent Theme:** Storefront 4.6.2 (installed in `wp-content/themes/storefront`)
-* **Child Theme:** Storefront Child 1.0.0
-* **PHP / Server / Database:** PHP 8.2.29 / nginx 1.26.1 / MySQL 8.4.0
-  
-## Local Installation & Setup
+1. Install and activate the **Storefront** parent theme, then upload and activate this child theme.
+2. Optional analytics: add this line to the site's `wp-config.php`:
 
-1. Ensure the **Storefront** parent theme is installed in `wp-content/themes/storefront` (do not activate the parent theme directly).
-2. Clone this repository into your WordPress themes directory as `storefront-child`:
-   ```bash
-   cd wp-content/themes
-   git clone https://github.com/LuicoRL/northline-outfitters.git storefront-child
+   ```php
+   define( 'NORTHLINE_GA4_MEASUREMENT_ID', 'G-XXXXXXX' );
    ```
-3. In **WP Admin → Appearance → Themes**, activate **Storefront Child**.
-4. Configure environment-specific credentials (such as Stripe Test/Live keys or analytics IDs) in **WP Admin** or `wp-config.php`—never commit API keys or secrets to this repository.
 
-## Architecture & Development Rules
+   Never commit measurement IDs, API keys, or `wp-config.php`.
 
-* **KISS & YAGNI:** Keep all styling and functional hooks strictly scoped to store requirements.
-* **Upgrade-Safe Customizations:** Place CSS overrides in `style.css` and PHP hooks/filters in `functions.php` (or modular files inside `inc/`). Never edit `wp-content/themes/storefront` or plugin files directly.
-* **No Secrets in Version Control:** Payment gateway keys, database dumps, and `.log` files must remain outside Git.
+## Reusable Components
 
-## Deployment Workflow
+| Component | File | How a new site uses it |
+|---|---|---|
+| Contrast styles (prices, cart count) | `style.css` | Install the child theme. |
+| GA4 tag | `functions.php` | Define `NORTHLINE_GA4_MEASUREMENT_ID` in `wp-config.php`. No plugin needed. |
 
-1. **Local:** Build and validate changes in LocalWP on feature branches or `main`.
-2. **Staging:** Pull the tested child theme build to a staging environment and verify checkout flows, accessibility, and SEO checks against staging data.
-3. **Production:** Deploy verified theme changes after taking a full database and file backup, then run smoke tests on product pages, cart, and checkout.
+## Environment Workflow
+
+- **Local:** build and test in LocalWP; code in Git; test credentials and sample data.
+- **Staging:** deploy reviewed code from Git; use staging-specific `wp-config.php` values (separate or no GA4 ID, test Stripe keys); validate before release.
+- **Production:** back up first; deploy approved code; run a smoke test (home, product, cart, test checkout, admin login).
+- **Data:** code moves forward through the environments. The staging database never overwrites live orders or customers.
+- **Rollback:** the lead developer approves; restore the pre-deploy backup or revert the Git commit; repeat the smoke test.
